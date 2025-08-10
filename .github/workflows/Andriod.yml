@@ -1,3 +1,4 @@
+
 name: Build and Upload APK
 
 on:
@@ -23,19 +24,21 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Build Debug APK
+        working-directory: Examples/Android
         run: gradle assembleDebug
 
       - name: Build Release APK (unsigned)
+        working-directory: Examples/Android
         run: gradle assembleRelease
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: Examples/Android/app/build/outputs/apk/debug/app-debug.apk
 
       - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          path: Examples/Android/app/build/outputs/apk/release/app-release-unsigned.apk
