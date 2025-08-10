@@ -1,0 +1,31 @@
+name: Android Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '11'
+
+      - name: Download Android SDK tools
+        uses: android-actions/setup-android@v2
+        with:
+          sdk-version: 'latest'
+
+      - name: Set up NDK
+        run: sdkmanager "ndk;25.1.8937393" --sdk_root=${{ env.ANDROID_SDK_ROOT }}
+
+      - name: Build with Gradle
+        run: ./gradlew assembleDebug
